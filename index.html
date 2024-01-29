@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page avec Code Secret</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            background: url('fond-papier-grunge.jpg');
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Times New Roman', serif; /* Ou une autre police de style médiéval */
+        }
+
+        .button-medieval {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #a67c52; /* Couleur boisée ou terreuse */
+            border: 2px solid #6b4700;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 2px 2px 2px #000;
+            transition: all 0.3s ease;
+        }
+
+        .button-medieval:hover {
+            background-color: #9b6a30;
+        }
+
+        #startDiv, .codeDiv {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #codeInput {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #codeInput input {
+            width: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="startDiv">
+        <button type="button" class="button-medieval" id="enterButton">Entrée</button>
+    </div>
+    <div class="codeDiv" style="display:none;">
+        <div id="codeInput">
+            <input type="number" id="input1" maxlength="1">
+            <input type="number" id="input2" maxlength="1">
+            <input type="number" id="input3" maxlength="1">
+            <input type="number" id="input4" maxlength="1">
+            <button class="button-medieval" onclick="verifierCode()">Soumettre</button>
+        </div>
+        <audio id="backgroundMusic" loop controls style="display:none;">
+            <source src="sample-9s.mp3" type="audio/mpeg" />
+            <p>Votre navigateur ne prend pas en charge l'audio HTML5. Voici un <a href="sample-9s.mp3">lien vers le fichier audio</a> à la place.</p>
+        </audio>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#enterButton').click(function() {
+                $('#backgroundMusic')[0].play();
+                $('.codeDiv').show();
+                $('#startDiv').hide();
+            });
+
+            window.verifierCode = function() {
+                var codeCorrect = "1234";
+                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
+
+                if (codeEntree === codeCorrect) {
+                    $('#backgroundMusic')[0].pause();
+                    alert("Code correct !");
+                } else {
+                    alert("Code incorrect, essayez à nouveau.");
+                }
+            };
+        });
+    </script>
+</body>
+</html>
