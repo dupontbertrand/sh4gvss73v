@@ -78,20 +78,26 @@
             $('#startDiv').hide();
         });
 
-        $('#codeInput input').keyup(function() {
+        // Fonction pour vérifier la longueur totale des inputs et valider le code
+        function checkAndVerifyCode() {
+            var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
+            if (codeEntree.length === 4) { // Assurez-vous que les 4 champs sont remplis
+                verifierCode();
+            }
+        }
+
+        $('#codeInput input').keyup(function(e) {
             // Limite l'input à un seul chiffre
             if ($(this).val().length > 1) {
                 $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
             }
 
-            // Si un chiffre est entré, passe au prochain input ou vérifie le code
+            // Si un chiffre est entré, passe au prochain input
             if ($(this).val().length == this.maxLength) {
-                if ($(this).is('#input4')) {
-                    verifierCode(); // Vérifie le code après le dernier input
-                } else {
-                    $(this).next('input').focus(); // Passe au prochain input
-                }
+                $(this).next('input').focus();
             }
+
+            checkAndVerifyCode(); // Vérifie le code à chaque modification
         });
 
         window.verifierCode = function() {
@@ -107,6 +113,7 @@
         };
     });
 </script>
+
 
 
 </body>
