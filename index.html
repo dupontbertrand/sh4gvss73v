@@ -46,8 +46,9 @@
         }
 
         #codeInput input {
-            width: 40px;
-            font-size: 20px;
+            width: 300px;
+            height: 200px;
+            font-size: 70px;
             text-align: center;
         }
     </style>
@@ -62,33 +63,51 @@
             <input type="number" id="input2" maxlength="1">
             <input type="number" id="input3" maxlength="1">
             <input type="number" id="input4" maxlength="1">
-            <button class="button-medieval" onclick="verifierCode()">Soumettre</button>
         </div>
+        <div id="resultText" style="margin-top: 20px; font-size: 24px;"></div>
         <audio id="backgroundMusic" loop controls style="display:none;">
             <source src="sample-9s.mp3" type="audio/mpeg" />
             <p>Votre navigateur ne prend pas en charge l'audio HTML5. Voici un <a href="sample-9s.mp3">lien vers le fichier audio</a> à la place.</p>
         </audio>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#enterButton').click(function() {
-                $('#backgroundMusic')[0].play();
-                $('.codeDiv').show();
-                $('#startDiv').hide();
-            });
-
-            window.verifierCode = function() {
-                var codeCorrect = "1234";
-                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
-
-                if (codeEntree === codeCorrect) {
-                    $('#backgroundMusic')[0].pause();
-                    alert("Code correct !");
-                } else {
-                    alert("Code incorrect, essayez à nouveau.");
-                }
-            };
+<script>
+    $(document).ready(function() {
+        $('#enterButton').click(function() {
+            $('#backgroundMusic')[0].play();
+            $('.codeDiv').show();
+            $('#startDiv').hide();
         });
-    </script>
+
+        $('#codeInput input').keyup(function() {
+            // Limite l'input à un seul chiffre
+            if ($(this).val().length > 1) {
+                $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
+            }
+
+            // Si un chiffre est entré, passe au prochain input ou vérifie le code
+            if ($(this).val().length == this.maxLength) {
+                if ($(this).is('#input4')) {
+                    verifierCode(); // Vérifie le code après le dernier input
+                } else {
+                    $(this).next('input').focus(); // Passe au prochain input
+                }
+            }
+        });
+
+        window.verifierCode = function() {
+            var codeCorrect = "1234";
+            var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
+
+            if (codeEntree === codeCorrect) {
+                $('#backgroundMusic')[0].pause();
+                $('#resultText').text("Code correct !").css('color', 'green');
+            } else {
+                $('#resultText').text("Code incorrect, essayez à nouveau.").css('color', 'red');
+            }
+        };
+    });
+</script>
+
+
 </body>
 </html>
