@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Page avec Code Secret</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
-            background: url('fond-papier-grunge.jpg');
+            background: url(https://media.warnerbros.fr/media/wb/landing/DoloresOmbrageCover.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Times New Roman', serif; /* Ou une autre police de style médiéval */
+            font-family: 'Times New Roman', serif;
+            /* Ou une autre police de style médiéval */
         }
 
         .button-medieval {
             padding: 10px 20px;
             font-size: 20px;
-            background-color: #a67c52; /* Couleur boisée ou terreuse */
+            background-color: #a67c52;
+            /* Couleur boisée ou terreuse */
             border: 2px solid #6b4700;
             color: white;
             cursor: pointer;
@@ -33,19 +39,23 @@
             background-color: #9b6a30;
         }
 
-        #startDiv, .codeDiv {
+        #startDiv,
+        .codeDiv {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         #codeInput {
+            margin-top: 60vh;
             display: flex;
             justify-content: center;
             gap: 10px;
         }
 
         #codeInput input {
+            background: #ff557f;
+            border: solid 3px #9f5765;
             width: 20vw;
             height: 20vh;
             font-size: 70px;
@@ -53,6 +63,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="startDiv">
         <button type="button" class="button-medieval" id="enterButton">Entrée</button>
@@ -62,59 +73,60 @@
             <input type="number" id="input1" maxlength="1">
             <input type="number" id="input2" maxlength="1">
             <input type="number" id="input3" maxlength="1">
-            <input type="number" id="input4" maxlength="1">
         </div>
         <div id="resultText" style="margin-top: 20px; font-size: 50px;"></div>
         <audio id="backgroundMusic" loop controls style="display:none;">
             <source src="sound.mp3" type="audio/mpeg" />
-            <p>Votre navigateur ne prend pas en charge l'audio HTML5. Voici un <a href="sound.mp3">lien vers le fichier audio</a> à la place.</p>
+            <p>Votre navigateur ne prend pas en charge l'audio HTML5. Voici un <a href="sound.mp3">lien vers le fichier
+                    audio</a> à la place.</p>
         </audio>
     </div>
-<script>
-    $(document).ready(function() {
-        $('#enterButton').click(function() {
-            $('#backgroundMusic')[0].play();
-            $('.codeDiv').show();
-            $('#startDiv').hide();
+    <script>
+        $(document).ready(function () {
+            $('#enterButton').click(function () {
+                $('#backgroundMusic')[0].play();
+                $('.codeDiv').show();
+                $('#startDiv').hide();
+            });
+
+            // Fonction pour vérifier la longueur totale des inputs et valider le code
+            function checkAndVerifyCode() {
+                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
+                if (codeEntree.length === 3) { // Assurez-vous que les 4 champs sont remplis
+                    verifierCode();
+                }
+            }
+
+            $('#codeInput input').keyup(function (e) {
+                // Limite l'input à un seul chiffre
+                if ($(this).val().length > 1) {
+                    $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
+                }
+
+                // Si un chiffre est entré, passe au prochain input
+                if ($(this).val().length == this.maxLength) {
+                    $(this).next('input').focus();
+                }
+
+                checkAndVerifyCode(); // Vérifie le code à chaque modification
+            });
+
+            window.verifierCode = function () {
+                var codeCorrect = "738";
+                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
+
+                if (codeEntree === codeCorrect) {
+                    $('#backgroundMusic')[0].pause();
+                    $('#resultText').text("Code correct !").css('color', 'green');
+                } else {
+                    $('#resultText').text("Code incorrect, essayez à nouveau.").css('color', 'red');
+                }
+            };
         });
-
-        // Fonction pour vérifier la longueur totale des inputs et valider le code
-        function checkAndVerifyCode() {
-            var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
-            if (codeEntree.length === 4) { // Assurez-vous que les 4 champs sont remplis
-                verifierCode();
-            }
-        }
-
-        $('#codeInput input').keyup(function(e) {
-            // Limite l'input à un seul chiffre
-            if ($(this).val().length > 1) {
-                $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
-            }
-
-            // Si un chiffre est entré, passe au prochain input
-            if ($(this).val().length == this.maxLength) {
-                $(this).next('input').focus();
-            }
-
-            checkAndVerifyCode(); // Vérifie le code à chaque modification
-        });
-
-        window.verifierCode = function() {
-            var codeCorrect = "7381";
-            var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val() + $('#input4').val();
-
-            if (codeEntree === codeCorrect) {
-                $('#backgroundMusic')[0].pause();
-                $('#resultText').text("Code correct !").css('color', 'green');
-            } else {
-                $('#resultText').text("Code incorrect, essayez à nouveau.").css('color', 'red');
-            }
-        };
-    });
-</script>
+    </script>
 
 
 
 </body>
+
 </html>
