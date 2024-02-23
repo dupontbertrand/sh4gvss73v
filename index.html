@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
-            background: url(https://media.warnerbros.fr/media/wb/landing/DoloresOmbrageCover.jpg);
+            background: url(DoloresOmbrageCover.jpg);
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
@@ -82,47 +82,51 @@
         </audio>
     </div>
     <script>
-        $(document).ready(function () {
-            $('#enterButton').click(function () {
-                $('#backgroundMusic')[0].play();
-                $('.codeDiv').show();
-                $('#startDiv').hide();
-            });
+$(document).ready(function () {
+    $('#enterButton').click(function () {
+        $('#backgroundMusic')[0].play();
+        $('.codeDiv').show();
+        $('#startDiv').hide();
+    });
 
-            // Fonction pour vérifier la longueur totale des inputs et valider le code
-            function checkAndVerifyCode() {
-                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
-                if (codeEntree.length === 3) { // Assurez-vous que les 4 champs sont remplis
-                    verifierCode();
-                }
-            }
+    // Fonction pour vérifier la longueur totale des inputs et valider le code
+    function checkAndVerifyCode() {
+        var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
+        if (codeEntree.length === 3) {
+            verifierCode();
+        }
+    }
 
-            $('#codeInput input').keyup(function (e) {
-                // Limite l'input à un seul chiffre
-                if ($(this).val().length > 1) {
-                    $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
-                }
+    $('#codeInput input').keyup(function (e) {
+        // Limite l'input à un seul chiffre
+        if ($(this).val().length > 1) {
+            $(this).val($(this).val().charAt(0)); // Garde uniquement le premier chiffre
+        }
 
-                // Si un chiffre est entré, passe au prochain input
-                if ($(this).val().length == this.maxLength) {
-                    $(this).next('input').focus();
-                }
+        // Si un chiffre est entré, passe au prochain input
+        if ($(this).val().length == this.maxLength) {
+            $(this).next('input').focus();
+        }
 
-                checkAndVerifyCode(); // Vérifie le code à chaque modification
-            });
+        checkAndVerifyCode(); // Vérifie le code à chaque modification
+    });
 
-            window.verifierCode = function () {
-                var codeCorrect = "738";
-                var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
+    window.verifierCode = function () {
+        var codeCorrect = "738";
+        var codeEntree = $('#input1').val() + $('#input2').val() + $('#input3').val();
 
-                if (codeEntree === codeCorrect) {
-                    $('#backgroundMusic')[0].pause();
-                    $('#resultText').text("Code correct !").css('color', 'green');
-                } else {
-                    $('#resultText').text("Code incorrect, essayez à nouveau.").css('color', 'red');
-                }
-            };
-        });
+        if (codeEntree === codeCorrect) {
+            $('#backgroundMusic')[0].pause();
+            // Affiche l'image pour le code correct
+            $('#resultText').html("<img src='circle-green.png' alt='Code correct' style='height:10vh;width:auto;'/>").css('color', 'green');
+        } else {
+            $('#resultText').text("Code incorrect, essayez à nouveau.").css('color', 'red');
+            $('#codeInput input').val(''); // Efface les inputs
+            $('#input1').focus();
+        }
+    };
+});
+
     </script>
 
 
